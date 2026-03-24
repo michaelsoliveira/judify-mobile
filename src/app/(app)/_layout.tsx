@@ -1,8 +1,8 @@
 import { useAuth } from "@/context/auth";
-import { Redirect } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
 
-export default function Index() {
+export default function AppGroupLayout() {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
@@ -13,9 +13,9 @@ export default function Index() {
     );
   }
 
-  if (user) {
-    return <Redirect href="/home" />;
+  if (!user) {
+    return <Redirect href="/login" />;
   }
 
-  return <Redirect href="/login" />;
+  return <Stack screenOptions={{ headerShown: false }} />;
 }
