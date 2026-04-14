@@ -71,11 +71,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signIn = useCallback(async (email: string, password: string) => {
-    const res = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email.trim(), password }),
-    });
+    let res: Response;
+    try {
+      res = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
+    } catch {
+      const hint =
+        API_BASE_URL.includes("localhost") || API_BASE_URL.includes("127.0.0.1")
+          ? " Em celular físico use o IP da máquina em EXPO_PUBLIC_API_URL (ex.: http://192.168.x.x:8000/api/v1); no emulador Android use 10.0.2.2 no lugar de localhost."
+          : " Verifique se o backend está no ar e se a URL em EXPO_PUBLIC_API_URL inclui /api/v1.";
+      throw new Error(
+        `Não foi possível conectar à API (${API_BASE_URL}).${hint}`
+      );
+    }
 
     if (res.status === 402) {
       const body = await res.json().catch(() => ({}));
@@ -90,6 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       let detail = "Credenciais inválidas.";
       try {
         const body = await res.json();
+        console.log("Login error response body:", body);
         if (typeof body.detail === "string") detail = body.detail;
       } catch {
         /* ignore */

@@ -1,5 +1,8 @@
 {
   "expo": {
+    "extra": {
+      "API_BASE_URL": "http://172.20.10.3:3333"
+    },
     "name": "Judify",
     "slug": "judify-mobile",
     "version": "1.0.0",
@@ -24,7 +27,8 @@
         "backgroundColor": "#0f172a"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.judify.mobile"
+      "package": "com.judify.mobile",
+      "usesCleartextTraffic": true
     },
     "web": {
       "favicon": "./assets/favicon.png",

@@ -77,7 +77,7 @@ export default function LoginScreen() {
         />
 
         {error ? (
-          <Text className="mb-4 text-center text-sm text-red-400">{error}</Text>
+          <Text className="mb-4 text-center text-sm text-white">{error}</Text>
         ) : null}
 
         <Pressable
@@ -88,7 +88,7 @@ export default function LoginScreen() {
           {submitting ? (
             <ActivityIndicator color="#0f172a" />
           ) : (
-            <Text className="text-base font-semibold text-slate-950">
+            <Text className="text-base font-semibold text-white">
               Entrar
             </Text>
           )}
