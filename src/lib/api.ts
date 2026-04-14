@@ -1,8 +1,8 @@
-import type { RefreshResponse } from "@/types/api";
 import {
   clearTokens,
   getAccessToken,
   getRefreshToken,
+  parseAuthTokensPayload,
   setTokens,
 } from "@/lib/auth-storage";
 import { API_BASE_URL } from "@/lib/config";
@@ -33,9 +33,10 @@ async function refreshAccessToken(): Promise<string | null> {
       return null;
     }
 
-    const data = (await res.json()) as RefreshResponse;
-    await setTokens(data.access_token, data.refresh_token);
-    return data.access_token;
+    const raw = await res.json();
+    const tokens = parseAuthTokensPayload(raw);
+    await setTokens(tokens.access_token, tokens.refresh_token);
+    return tokens.access_token;
   })();
 
   try {

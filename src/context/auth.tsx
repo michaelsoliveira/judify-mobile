@@ -4,6 +4,7 @@ import {
   clearTokens,
   getAccessToken,
   getRefreshToken,
+  parseAuthTokensPayload,
   setTokens,
 } from "@/lib/auth-storage";
 import type { LoginResponse, UserPublic } from "@/types/api";
@@ -109,8 +110,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw new Error(detail);
     }
 
-    const data = (await res.json()) as LoginResponse;
-    await setTokens(data.access_token, data.refresh_token);
+    const raw = await res.json();
+    const tokens = parseAuthTokensPayload(raw);
+    await setTokens(tokens.access_token, tokens.refresh_token);
+
+    const data = raw as LoginResponse;
     try {
       const me = await apiJson<UserPublic>("/users/me");
       setUser(me);
