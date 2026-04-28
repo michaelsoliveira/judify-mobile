@@ -29,7 +29,7 @@ export default function TarefaDetailScreen() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: data?.titulo ?? "Tarefa",
+          title: data?.titulo ?? "Tarefa de laboratório",
           headerStyle: { backgroundColor: "#020617" },
           headerTintColor: "#f8fafc",
           headerShadowVisible: false,
